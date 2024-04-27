@@ -2,7 +2,7 @@ package com.alves.gerenciadordepessoas.application.domain.services.endereco;
 
 import com.alves.gerenciadordepessoas.application.domain.models.Endereco;
 import com.alves.gerenciadordepessoas.application.domain.models.Pessoa;
-import com.alves.gerenciadordepessoas.application.ports.in.endereco.UpdateEnderecoPrincipalUsuarioUseCase;
+import com.alves.gerenciadordepessoas.application.ports.in.endereco.UpdateEnderecoPrincipalPessoaUseCase;
 import com.alves.gerenciadordepessoas.application.ports.in.pessoa.FindPessoaByIdUseCase;
 import com.alves.gerenciadordepessoas.application.ports.in.pessoa.UpdatePessoaUseCase;
 import com.alves.gerenciadordepessoas.common.UseCase;
@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class UpdateEnderecoPrincipalUsuarioService implements UpdateEnderecoPrincipalUsuarioUseCase {
+public class UpdateEnderecoPrincipalPessoaService implements UpdateEnderecoPrincipalPessoaUseCase {
 
     private final UpdatePessoaUseCase updatePessoaUseCase;
     private final FindPessoaByIdUseCase findPessoaByIdUseCase;

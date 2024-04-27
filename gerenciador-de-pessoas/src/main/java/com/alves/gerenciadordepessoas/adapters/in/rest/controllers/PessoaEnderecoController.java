@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PessoaEnderecoController {
 
-    private final UpdateEnderecoPrincipalUsuarioUseCase updateEnderecoPrincipalUsuarioUseCase;
+    private final UpdateEnderecoPrincipalPessoaUseCase updateEnderecoPrincipalPessoaUseCase;
     private final FindEnderecoByIdAndPessoaIdUseCase findEnderecoByIdAndPessoaIdUseCase;
     private final FindAllEnderecoByPessoaIdUseCase findAllEnderecoByPessoaIdUseCase;
     private final UpdateEnderecoUseCase updateEnderecoByIdAndPessoaIdUseCase;
@@ -78,7 +78,7 @@ public class PessoaEnderecoController {
     public ResponseEntity<EnderecoResponse> editEnderecoPrincipal(
             @PathVariable Long pessoaId,
             @PathVariable Long enderecoId) {
-        Endereco endereco = updateEnderecoPrincipalUsuarioUseCase.update(enderecoId, pessoaId);
+        Endereco endereco = updateEnderecoPrincipalPessoaUseCase.update(enderecoId, pessoaId);
         EnderecoResponse enderecoResponse = enderecoRestMapper.toResponse(endereco);
         return ResponseEntity.ok().body(enderecoResponse);
     }
