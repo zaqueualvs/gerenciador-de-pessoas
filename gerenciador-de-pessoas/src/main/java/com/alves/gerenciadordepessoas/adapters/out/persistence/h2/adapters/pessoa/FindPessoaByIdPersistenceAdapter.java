@@ -2,7 +2,7 @@ package com.alves.gerenciadordepessoas.adapters.out.persistence.h2.adapters.pess
 
 import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.entities.PessoaEntity;
 import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.mappers.PessoaPersistenceMapper;
-import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.repositories.PessoaRepositiry;
+import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.repositories.PessoaRepository;
 import com.alves.gerenciadordepessoas.application.domain.models.Pessoa;
 import com.alves.gerenciadordepessoas.application.ports.out.pessoa.FindPessoaByIdPort;
 import com.alves.gerenciadordepessoas.common.PersistenceAdapter;
@@ -14,12 +14,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FindPessoaByIdPersistenceAdapter implements FindPessoaByIdPort {
 
-    private final PessoaRepositiry pessoaRepositiry;
+    private final PessoaRepository pessoaRepository;
     private final PessoaPersistenceMapper pessoaPersistenceMapper;
 
     @Override
     public Optional<Pessoa> findById(Long id) {
-        Optional<PessoaEntity> pessoaEntityOptional = pessoaRepositiry.findById(id);
+        Optional<PessoaEntity> pessoaEntityOptional = pessoaRepository.findById(id);
 
         if (pessoaEntityOptional.isEmpty()) {
             return Optional.empty();

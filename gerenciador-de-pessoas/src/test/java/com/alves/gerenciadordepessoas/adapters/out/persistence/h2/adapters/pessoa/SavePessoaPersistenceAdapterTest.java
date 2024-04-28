@@ -11,14 +11,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class FindAllPessoaPersistenceAdapterTest {
+class SavePessoaPersistenceAdapterTest {
 
     @Mock
     private PessoaRepository pessoaRepository;
@@ -26,23 +24,26 @@ class FindAllPessoaPersistenceAdapterTest {
     private PessoaPersistenceMapper pessoaPersistenceMapper;
 
     @InjectMocks
-    private FindAllPessoaPersistenceAdapter findAllPessoaPersistenceAdapter;
+    private SavePessoaPersistenceAdapter savePessoaPersistenceAdapter;
 
     @Test
-    void findAllPessoa(){
-        int totalElement = 21;
-        List<PessoaEntity> pessoaEntities =  Instancio.stream(PessoaEntity.class).limit(totalElement).toList();
+    void savePessoa(){
+        Pessoa pessoa = Instancio.create(Pessoa.class);
+        PessoaEntity pessoaEntity = new PessoaEntity();
 
-        when(pessoaRepository.findAll()).thenReturn(pessoaEntities);
-        when(pessoaPersistenceMapper.toDomain(any(PessoaEntity.class))).thenReturn(new Pessoa());
-        List<Pessoa> result = findAllPessoaPersistenceAdapter.findAll();
+        when(pessoaRepository.save(pessoaEntity)).thenReturn(pessoaEntity);
+        when(pessoaPersistenceMapper.toDomain(pessoaEntity)).thenReturn(pessoa);
+        when(pessoaPersistenceMapper.toEntity(pessoa)).thenReturn(pessoaEntity);
 
-        verify(pessoaPersistenceMapper, times(totalElement)).toDomain(any(PessoaEntity.class));
-        verify(pessoaRepository, times(1)).findAll();
-        verifyNoMoreInteractions(pessoaPersistenceMapper);
+        Pessoa result = savePessoaPersistenceAdapter.save(pessoa);
+
+        verify(pessoaRepository, times(1)).save(any(PessoaEntity.class));
+        verify(pessoaPersistenceMapper, times(1)).toDomain(any(PessoaEntity.class));
+        verify(pessoaPersistenceMapper, times(1)).toEntity(any(Pessoa.class));
         verifyNoMoreInteractions(pessoaRepository);
+        verifyNoMoreInteractions(pessoaPersistenceMapper);
 
         assertNotNull(result);
-        assertEquals(totalElement, result.size());
     }
+
 }

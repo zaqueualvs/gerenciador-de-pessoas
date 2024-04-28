@@ -2,6 +2,7 @@ package com.alves.gerenciadordepessoas.adapters.out.persistence.h2.adapters.ende
 
 import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.entities.EnderecoEntity;
 import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.mappers.EnderecoPersistenceMapper;
+import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.mappers.EnderecoPersistenceMapperImpl;
 import com.alves.gerenciadordepessoas.adapters.out.persistence.h2.repositories.EnderecoRepository;
 import com.alves.gerenciadordepessoas.application.domain.models.Endereco;
 import org.instancio.Instancio;
@@ -9,10 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateEnderecoPersistenceAdapterTest {
@@ -28,21 +32,19 @@ class UpdateEnderecoPersistenceAdapterTest {
     @Test
     void updateEndereco() {
         Endereco endereco = Instancio.create(Endereco.class);
-        EnderecoEntity enderecoEntity = new EnderecoEntity(
-                endereco.getId(),
-                endereco.getLogradouro(),
-                endereco.getCep(),
-                endereco.getNumero(),
-                endereco.getCidade(),
-                endereco.getEstado());
+        EnderecoEntity enderecoEntity = Instancio.create(EnderecoEntity.class);
 
+        when(enderecoPersistenceMapper.toDomain(enderecoEntity)).thenReturn(endereco);
         when(enderecoPersistenceMapper.toEntity(endereco)).thenReturn(enderecoEntity);
         when(enderecoRepository.save(enderecoEntity)).thenReturn(enderecoEntity);
-        when(enderecoPersistenceMapper.toDomain(enderecoEntity)).thenReturn(endereco);
 
         Endereco result = updateEnderecoPersistenceAdapter.update(endereco);
+        verify(enderecoPersistenceMapper, times(1)).toDomain(enderecoEntity);
+        verify(enderecoPersistenceMapper, times(1)).toEntity(endereco);
+        verify(enderecoRepository, times(1)).save(enderecoEntity);
+        verifyNoMoreInteractions(enderecoPersistenceMapper);
+        verifyNoMoreInteractions(enderecoRepository);
 
         assertNotNull(result);
     }
-
 }
