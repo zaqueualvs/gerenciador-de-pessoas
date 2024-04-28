@@ -80,9 +80,7 @@ public class Pessoa {
 
     public Endereco procurarEndereco(Long enderecoId) {
         return this.getEnderecos().stream().filter(endereco -> Objects.equals(endereco.getId(), enderecoId)).findFirst()
-                .orElseThrow(
-                        () -> new EnderecoNotFoundException(enderecoId)
-                );
+                .orElseThrow(() -> new EnderecoNotFoundException(enderecoId));
     }
 
     public void mudarEnderecoPrincipal(Long enderecoId) {

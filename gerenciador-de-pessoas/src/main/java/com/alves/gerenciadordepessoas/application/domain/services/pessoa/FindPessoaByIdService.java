@@ -11,13 +11,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FindPessoaByIdService implements FindPessoaByIdUseCase {
 
+
     private final FindPessoaByIdPort findPessoaByIdPort;
 
     @Override
     public Pessoa findById(Long id) {
         return findPessoaByIdPort.findById(id)
-                .orElseThrow(
-                        () -> new PessoaNotFoundException(id)
+                .orElseThrow(() -> new PessoaNotFoundException(id)
                 );
     }
 }
